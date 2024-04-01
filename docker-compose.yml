@@ -1,0 +1,38 @@
+# docker-compose.yml 部署java环境
+version: '3.8'
+services:
+  luck-mysql-local: # 容器名
+    image: mysql:latest
+    restart: always # 容器重启策略
+    environment: # 环境变量
+      MYSQL_ROOT_PASSWORD: 123456 # 密码
+    volumes:
+      - ./volumes/mysql/conf:/etc/mysql
+      - ./volumes/mysql/data:/var/lib/mysql
+      - ./volumes/mysql/log:/var/log/mysql 
+      - ./volumes/mysql/mysql-files:/var/lib/mysql-files
+    privileged: true
+    ports:
+      - "13306:3306"
+    command:
+      - --default-authentication-plugin=mysql_native_password
+  
+  luck-redis-server:
+    image: redis:latest
+    restart: always
+    ports:
+      - "26379:6379"
+
+  luck-redis-gui:
+    image: redislabs/redisinsight:latest
+    restart: always
+    ports:
+      - "36379:8001"
+    
+  luck-nginx:
+    image: nginx:latest
+    volumes:
+       - ./volumes/nginx/conf.d:/etc/nginx/conf.d
+    ports:
+      - "80:80"
+      - "443:443"
