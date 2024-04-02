@@ -2,7 +2,7 @@
 version: '3.8'
 services:
   local-nginx:
-    image: nginx:latest
+    image: nginx:1.25.4
     volumes:
        - ./volumes/nginx/conf.d:/etc/nginx/conf.d
     ports:
@@ -12,7 +12,7 @@ services:
       - my-network
 
   local-mysql-local: # 容器名
-    image: mysql:latest
+    image: mysql:8.3.0
     restart: always # 容器重启策略
     environment: # 环境变量
       MYSQL_ROOT_PASSWORD: 123456 # 密码
@@ -28,7 +28,7 @@ services:
       - my-network
   
   local-redis-server:
-    image: redis:latest
+    image: redis:7.2.4
     restart: always
     ports:
       - "6379:6379"
@@ -58,7 +58,7 @@ services:
       - my-network
 
   local-rabbitmq:
-    image: bitnami/rabbitmq:latest  
+    image: bitnami/rabbitmq:3.12.13
     restart: always
     volumes:
        - ./volumes/rabbitmq/rabbitmq.conf:/opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf

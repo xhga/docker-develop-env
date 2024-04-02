@@ -7,5 +7,5 @@ nginx, mysql, redis, mongo, rabbitmq
     # 运行所有容器
     docker-compose up -d
     # 指定运行的容器
-    docker-compose up -d nginx mysql redis mongo rabbitmq
+    docker-compose up -d local-nginx local-rabbitmq
 ```
