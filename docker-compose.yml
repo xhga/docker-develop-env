@@ -10,7 +10,7 @@ services:
       - "443:443"
     networks:
       - my-network
-      
+
   luck-mysql-local: # 容器名
     image: mysql:latest
     restart: always # 容器重启策略
@@ -19,7 +19,7 @@ services:
     volumes:
       - ./volumes/mysql/conf:/etc/mysql
       - ./volumes/mysql/data:/var/lib/mysql
-      - ./log/mysql:/var/log/mysql 
+      - ./logs/mysql:/var/log/mysql 
       # - ./volumes/mysql/mysql-files:/var/lib/mysql-files
     privileged: true
     ports:
