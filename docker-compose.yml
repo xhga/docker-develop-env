@@ -1,7 +1,7 @@
 # docker-compose.yml 部署java环境
 version: '3.8'
 services:
-  luck-nginx:
+  local-nginx:
     image: nginx:latest
     volumes:
        - ./volumes/nginx/conf.d:/etc/nginx/conf.d
@@ -11,45 +11,43 @@ services:
     networks:
       - my-network
 
-  luck-mysql-local: # 容器名
+  local-mysql-local: # 容器名
     image: mysql:latest
     restart: always # 容器重启策略
     environment: # 环境变量
       MYSQL_ROOT_PASSWORD: 123456 # 密码
     volumes:
-      - ./volumes/mysql/conf:/etc/mysql
       - ./volumes/mysql/data:/var/lib/mysql
-      - ./logs/mysql:/var/log/mysql 
-      # - ./volumes/mysql/mysql-files:/var/lib/mysql-files
+      - ./logs/mysql:/var/log/mysql
     privileged: true
     ports:
-      - "23306:3306"
+      - "3306:3306"
     command:
       - --default-authentication-plugin=mysql_native_password
     networks:
       - my-network
   
-  luck-redis-server:
+  local-redis-server:
     image: redis:latest
     restart: always
     ports:
-      - "26379:6379"
+      - "6379:6379"
     networks:
       - my-network
 
-  luck-redis-gui:
+  local-redis-gui:
     image: redislabs/redisinsight:latest
     restart: always
     ports:
-      - "36379:8001"
+      - "16379:8001"
     networks:
       - my-network
 
-  luck-mongo:
+  local-mongo:
     image: mongo:latest
     restart: always
     ports:
-      - "37017:27017"
+      - "27017:27017"
     environment:
       TZ: Asia/Shanghai
       MONGO_INITDB_DATABASE: test
@@ -59,11 +57,10 @@ services:
     networks:
       - my-network
 
-  luck-rabbitmq:
+  local-rabbitmq:
     image: bitnami/rabbitmq:latest  
     restart: always
     volumes:
-       # - ./volumes/rabbitmq/bitnami:/bitnami
        - ./volumes/rabbitmq/rabbitmq.conf:/opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf
     ports:
       - "5672:5672"
