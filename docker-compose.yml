@@ -1,6 +1,16 @@
 # docker-compose.yml 部署java环境
 version: '3.8'
 services:
+  luck-nginx:
+    image: nginx:latest
+    volumes:
+       - ./volumes/nginx/conf.d:/etc/nginx/conf.d
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - my-network
+      
   luck-mysql-local: # 容器名
     image: mysql:latest
     restart: always # 容器重启策略
@@ -58,16 +68,6 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
-    networks:
-      - my-network
-
-  luck-nginx:
-    image: nginx:latest
-    volumes:
-       - ./volumes/nginx/conf.d:/etc/nginx/conf.d
-    ports:
-      - "80:80"
-      - "443:443"
     networks:
       - my-network
 
