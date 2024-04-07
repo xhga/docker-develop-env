@@ -1,5 +1,5 @@
 # docker-compose.yml 部署java环境
-version: '3.8'
+version: "3.8"
 services:
   local-nginx:
     image: nginx:1.25.4
@@ -11,19 +11,27 @@ services:
     networks:
       - my-network
 
-  local-mysql-local: # 容器名
-    image: mysql:8.3.0
+  local-mysql: # 容器名
+    container_name: ${MYSQL_HOST}
+    build:
+      context: .
+      dockerfile: ./image/mysql/8/Dockerfile
     restart: always # 容器重启策略
-    environment: # 环境变量
-      MYSQL_ROOT_PASSWORD: 123456 # 密码
+    env_file:
+      - ./env/mysql.env
     volumes:
       - ./volumes/mysql/data:/var/lib/mysql
       - ./logs/mysql:/var/log/mysql
     privileged: true
     ports:
-      - "3306:3306"
-    command:
-      - --default-authentication-plugin=mysql_native_password
+      - "13306:3306"
+    # command:
+    #   - --default-authentication-plugin=mysql_native_password
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 10s
+      retries: 10
     networks:
       - my-network
   
@@ -65,6 +73,22 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+    networks:
+      - my-network
+
+  local-nacos:
+    image: nacos/nacos-server:${NACOS_VERSION}
+    env_file:
+      - ./env/nacos-standlone-mysql.env
+    volumes:
+      - ./logs/nacos:/home/nacos/logs
+    ports:
+      - "18848:8848"
+      - "19848:9848"
+    depends_on:
+      local-mysql:
+        condition: service_healthy
+    restart: always
     networks:
       - my-network
 
