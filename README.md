@@ -1,4 +1,4 @@
-# 一键部署常用开发环境: 
+# 基于docker的开发者集成环境
 nginx, mysql, redis, mongo, rabbitmq, nacos, rocketmq, zookeeper
 
 ## 后台运行容器:
