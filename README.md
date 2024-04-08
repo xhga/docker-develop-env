@@ -1,5 +1,5 @@
 # 一键部署常用开发环境: 
-nginx, mysql, redis, mongo, rabbitmq, nacos, rocketmq
+nginx, mysql, redis, mongo, rabbitmq, nacos, rocketmq, zookeeper
 
 ## 后台运行容器:
 

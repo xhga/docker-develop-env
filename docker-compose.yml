@@ -119,6 +119,19 @@ services:
         JAVA_OPTS: "-Drocketmq.namesrv.addr=${ROCKETMQ_NAMESRC_CONTAINER_NAME}:9876"
     networks:
       - my-network
+  local-zookeeper:
+    image: zookeeper:latest
+    privileged: true
+    restart: always
+    ports:
+      - 2181:2181
+    environment:
+      TZ: "Asia/Shanghai"
+    volumes:
+      - ./logs/zookeeper/datalog:/datalog
+      - ./logs/zookeeper/logs:/logs
+      - ./volumes/zookeeper/data:/data
+      - ./volumes/zookeeper/conf:/conf
 
 
 networks:

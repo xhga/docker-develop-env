@@ -3,3 +3,4 @@
 logs/*
 
 volumes/mysql/data/*
+volumes/zookeeper
