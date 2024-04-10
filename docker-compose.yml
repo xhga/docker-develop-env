@@ -43,10 +43,9 @@ services:
       - my-network
 
   local-redis-gui:
-    image: redislabs/redisinsight:latest
-    restart: always
+    image: redis/redisinsight:latest
     ports:
-      - "16379:8001"
+      - "16379:5540"
     networks:
       - my-network
 
@@ -82,8 +81,7 @@ services:
     volumes:
       - ./logs/nacos:/home/nacos/logs
     ports:
-      - "18848:8848"
-      - "19848:9848"
+      - "8848:8848"
     depends_on:
       local-mysql:
         condition: service_healthy
