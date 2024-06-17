@@ -1,93 +1,93 @@
 version: "3.8"
 services:
-  # local-nginx:
-  #   image: nginx:1.25.4
-  #   volumes:
-  #      - ./volumes/nginx/conf.d:/etc/nginx/conf.d
-  #   ports:
-  #     - "80:80"
-  #     - "443:443"
-  #   networks:
-  #     - my-network
+  local-nginx:
+    image: nginx:1.25.4
+    volumes:
+       - ./volumes/nginx/conf.d:/etc/nginx/conf.d
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - my-network
 
-  # local-mysql: # 容器名
-  #   container_name: ${MYSQL_CONTAINER_NAME}
-  #   build:
-  #     context: .
-  #     dockerfile: ./image/mysql/8/Dockerfile
-  #   restart: always # 容器重启策略
-  #   env_file:
-  #     - ./env/mysql.env
-  #   volumes:
-  #     - ./volumes/mysql/data:/var/lib/mysql
-  #     - ./logs/mysql:/var/log/mysql
-  #   privileged: true
-  #   ports:
-  #     - "13306:3306"
-  #   # command:
-  #   #   - --default-authentication-plugin=mysql_native_password
-  #   healthcheck:
-  #     test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
-  #     interval: 5s
-  #     timeout: 10s
-  #     retries: 10
-  #   networks:
-  #     - my-network
+  local-mysql: # 容器名
+    container_name: ${MYSQL_CONTAINER_NAME}
+    build:
+      context: .
+      dockerfile: ./image/mysql/8/Dockerfile
+    restart: always # 容器重启策略
+    env_file:
+      - ./env/mysql.env
+    volumes:
+      - ./volumes/mysql/data:/var/lib/mysql
+      - ./logs/mysql:/var/log/mysql
+    privileged: true
+    ports:
+      - "13306:3306"
+    # command:
+    #   - --default-authentication-plugin=mysql_native_password
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+    networks:
+      - my-network
   
-  # local-redis-server:
-  #   image: redis:7.2.4
-  #   restart: always
-  #   ports:
-  #     - "6379:6379"
-  #   networks:
-  #     - my-network
+  local-redis-server:
+    image: redis:7.2.4
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - my-network
 
-  # local-redis-gui:
-  #   image: redis/redisinsight:latest
-  #   ports:
-  #     - "16379:5540"
-  #   networks:
-  #     - my-network
+  local-redis-gui:
+    image: redis/redisinsight:latest
+    ports:
+      - "16379:5540"
+    networks:
+      - my-network
 
-  # local-mongo:
-  #   image: mongo:latest
-  #   restart: always
-  #   ports:
-  #     - "27017:27017"
-  #   environment:
-  #     TZ: Asia/Shanghai
-  #     MONGO_INITDB_DATABASE: test
-  #     MONGO_INITDB_ROOT_USERNAME: root
-  #     MONGO_INITDB_ROOT_PASSWORD: 123456
-  #   command: mongod
-  #   networks:
-  #     - my-network
+  local-mongo:
+    image: mongo:latest
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      TZ: Asia/Shanghai
+      MONGO_INITDB_DATABASE: test
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 123456
+    command: mongod
+    networks:
+      - my-network
 
-  # local-rabbitmq:
-  #   image: bitnami/rabbitmq:3.12.13
-  #   restart: always
-  #   volumes:
-  #      - ./volumes/rabbitmq/rabbitmq.conf:/opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf
-  #   ports:
-  #     - "5672:5672"
-  #     - "15672:15672"
-  #   networks:
-  #     - my-network
+  local-rabbitmq:
+    image: bitnami/rabbitmq:3.12.13
+    restart: always
+    volumes:
+       - ./volumes/rabbitmq/rabbitmq.conf:/opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - my-network
 
-  # local-nacos:
-  #   image: nacos/nacos-server:${NACOS_VERSION}
-  #   env_file:
-  #     - ./env/nacos-standlone-mysql.env
-  #   volumes:
-  #     - ./logs/nacos:/home/nacos/logs
-  #   ports:
-  #     - "8848:8848"
-  #   depends_on:
-  #     local-mysql:
-  #       condition: service_healthy
-  #   restart: always
-  #   networks:
-  #     - my-network
+  local-nacos:
+    image: nacos/nacos-server:${NACOS_VERSION}
+    env_file:
+      - ./env/nacos-standlone-mysql.env
+    volumes:
+      - ./logs/nacos:/home/nacos/logs
+    ports:
+      - "8848:8848"
+    depends_on:
+      local-mysql:
+        condition: service_healthy
+    restart: always
+    networks:
+      - my-network
   
   local-rocketmq-namesrv:
     container_name: ${ROCKETMQ_NAMESRC_CONTAINER_NAME}
@@ -125,19 +125,19 @@ services:
     networks:
       - my-network
   
-  # local-zookeeper:
-  #   image: zookeeper:latest
-  #   privileged: true
-  #   restart: always
-  #   ports:
-  #     - 2181:2181
-  #   environment:
-  #     TZ: "Asia/Shanghai"
-  #   volumes:
-  #     - ./logs/zookeeper/datalog:/datalog
-  #     - ./logs/zookeeper/logs:/logs
-  #     - ./volumes/zookeeper/data:/data
-  #     - ./volumes/zookeeper/conf:/conf
+  local-zookeeper:
+    image: zookeeper:latest
+    privileged: true
+    restart: always
+    ports:
+      - 2181:2181
+    environment:
+      TZ: "Asia/Shanghai"
+    volumes:
+      - ./logs/zookeeper/datalog:/datalog
+      - ./logs/zookeeper/logs:/logs
+      - ./volumes/zookeeper/data:/data
+      - ./volumes/zookeeper/conf:/conf
 
 
 networks:
